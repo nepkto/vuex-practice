@@ -1,20 +1,36 @@
 <template>
   <div>
-    <button class="btn btn sm" @click="incrementCounter">Increment</button> {{count}}
+    <button class="btn btn sm" @click="incrementCounter">Increment</button>{{countAlias}} {{countPlusLocalState}}
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: "HelloWorld",
   props: {
     msg: String,
   },
-  computed: {
-    count () {
-      return this.$store.state.count
+  data(){
+    return {
+      localCount: 10
     }
   },
+  // computed: {
+  //   count () {
+  //     return this.$store.state.count
+  //   }
+  // },
+  computed: mapState({
+    count: state=> state.count,
+    // passing the string value 'count' is same as `state => state.count`
+    countAlias: 'count',
+    // to access local state with `this`, a normal function must be used
+    countPlusLocalState (state) {
+      return state.count + this.localCount
+    }
+  }),
   methods: {
     incrementCounter() {
       this.$store.commit("increment");
