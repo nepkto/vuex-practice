@@ -1,16 +1,20 @@
 <template>
     <div>
-        <div class="col-sm-4">
+        
+            <div class="col-sm-4">{{ count }}</div>
+
             <button @click="increment">Increment</button>
-        </div>
-        <div class="col-sm-4">{{ count }}</div>
-        <div class="col-sm-4">
             <button @click="decrement">Decrement By 10</button>
-        </div>
+            <button @click="asyncIncrement">Async INcrement</button>
+            
+            
+
+
     </div>
 </template>
 
 <script>
+// import { mapActions,mapState } from 'vuex'
 import { mapState } from 'vuex'
 export default {
     computed: mapState([
@@ -22,7 +26,20 @@ export default {
         },
         decrement() {
             this.$store.commit('decrement',10)
-        }
+        },
+        asyncIncrement(){
+            this.$store.dispatch('actionA').then(() => {
+                console.log('success')
+            }).catch((err => {
+                console.log(err)
+            }) )
+        },
+        // ...mapActions({
+        //     // asyncIncrement: 'increment',
+        //     asyncIncrement: 'actionA'
+        // }),
+      
+       
     }
 }
 </script>
